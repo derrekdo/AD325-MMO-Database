@@ -154,43 +154,61 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V> {
         } // end if
 
         // Check for and resolve collision
-        hashIndex = linearProbe(hashIndex, key);
+        hashIndex = quadraticProbe(hashIndex, key);
 //    hashIndex = quadraticProbe(hashIndex, key);
 
         return hashIndex;
     } // end getHashIndex
 
-    // Precondition: checkIntegrity has been called.
-    private int linearProbe(int index, K key) {
+//    // Precondition: checkIntegrity has been called.
+//    private int linearProbe(int index, K key) {
+//        boolean found = false;
+//        int availableIndex = -1; // Index of first available location (from which an entry was removed)
+//
+//        while ( !found && (hashTable[index] != null) ) {
+//            if (hashTable[index] != AVAILABLE) {
+//                if (key.equals(hashTable[index].getKey())) {
+//                    found = true; // Key found
+//                }else {             // Follow probe sequence
+//                    index = (index + 1) % hashTable.length;         // Linear probing
+//                }
+//            }
+//            // Skip entries that were removed
+//            else {
+//                // Save index of first location in removed state
+//                if (availableIndex == -1) {
+//                    availableIndex = index;
+//                }
+//                index = (index + 1) % hashTable.length;            // Linear probing
+//            } // end if
+//        } // end while
+//        // Assertion: Either key or null is found at hashTable[index]
+//
+//        if (found || (availableIndex == -1)) {
+//            return index;                                      // Index of either key or null
+//        }else {
+//            return availableIndex;                          // Index of an available location
+//        }
+//    } // end linearProbe
+
+    private int quadraticProbe(int index, K key){
         boolean found = false;
-        int availableIndex = -1; // Index of first available location (from which an entry was removed)
+        double i = 0;
 
-        while ( !found && (hashTable[index] != null) ) {
-            if (hashTable[index] != AVAILABLE) {
-                if (key.equals(hashTable[index].getKey())) {
-                    found = true; // Key found
-                }else {             // Follow probe sequence
-                    index = (index + 1) % hashTable.length;         // Linear probing
-                }
+        //Checks if there is an available index
+        while(!found && (hashTable[index] != null)){
+            //if the index shares the same key, exits function
+            if(key.equals(hashTable[index].getKey())){
+                found = true;
+            }else{
+                //if the found index is taken, initiates quadratic probing
+                index = (index + (int)Math.pow(i, 2)) % hashTable.length;
             }
-            // Skip entries that were removed
-            else {
-                // Save index of first location in removed state
-                if (availableIndex == -1) {
-                    availableIndex = index;
-                }
-                index = (index + 1) % hashTable.length;            // Linear probing
-            } // end if
-        } // end while
-        // Assertion: Either key or null is found at hashTable[index]
-
-        if (found || (availableIndex == -1)) {
-            return index;                                      // Index of either key or null
-        }else {
-            return availableIndex;                          // Index of an available location
+            i++;
         }
-    } // end linearProbe
 
+        return index;
+    }
 
 
     // Increases the size of the hash table to a prime >= twice its old size.
