@@ -193,7 +193,7 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V> {
 
     private int quadraticProbe(int index, K key){
         boolean found = false;
-        double i = 0;
+        double i = 1;
 
         //Checks if there is an available index
         while(!found && (hashTable[index] != null)){

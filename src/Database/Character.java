@@ -1,5 +1,8 @@
 package Database;
 
+import java.text.DecimalFormat;
+import java.util.Random;
+
 public class Character {
     private String name;
     private int height;
@@ -19,30 +22,62 @@ public class Character {
         this.moralAlignment = moralAlignment;
     }
 
-    public String heal(double healthPoints){
+    public void heal(double healthPoints){
         this.healthPoints += healthPoints;
         if(this.healthPoints > 100){
             this.healthPoints = 100;
         }
-        return "Healing " + name + " for: " + healthPoints;
     }
 
-    public String injure(double healthPoints){
+    public void injure(double healthPoints){
         this.healthPoints += healthPoints;
         if(this.healthPoints < 0){
             this.healthPoints = 0;
         }
-        return "Damaging " + name + " for: " + healthPoints;
+    }
+
+    public void shiftAlignment(int value){
+        Random random = new Random();
+        DecimalFormat form = new DecimalFormat("0.0");
+
+        if(value == 0){
+            moralAlignment = 0.0;
+        }else if(value > 0){
+            moralAlignment = Double.parseDouble(form.format(random.nextDouble(1.0)));
+        }else{
+            moralAlignment = Double.parseDouble(form.format(random.nextDouble(-1.0)));
+        }
     }
 
     public String toString(){
         StringBuilder characterSheet = new StringBuilder("\n\t\tCharacter Sheet\n");
         characterSheet.append("------------------------------\n");
         characterSheet.append("Character Name: " + name);
-        characterSheet.append("\nHealth Points: " + healthPoints);
-        characterSheet.append("\nHeight: " + height);
-        characterSheet.append("\nWeight: " + weight);
-        characterSheet.append("\nAlignment: " + moralAlignment);
-        return characterSheet + "";
+        characterSheet.append("\n Health Points: " + healthPoints);
+        characterSheet.append("\n        Height: " + height);
+        characterSheet.append("\n        Weight: " + weight);
+        characterSheet.append("\n     Alignment: " + moralAlignment);
+        characterSheet.append("\n------------------------------");
+        return characterSheet + " ";
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public int getWeight(){
+        return weight;
+    }
+
+    public double getHp(){
+        return healthPoints;
+    }
+
+    public double getAlignment(){
+        return moralAlignment;
+    }
+
+    public String getName(){
+        return name;
     }
 }
