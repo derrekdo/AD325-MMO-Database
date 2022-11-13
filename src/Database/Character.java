@@ -10,6 +10,9 @@ public class Character {
     private double moralAlignment;
     private double healthPoints = 100.0;
 
+    /**
+     * Constructor
+     */
     public Character(String name, int height, int weight, double moralAlignment){
         if(moralAlignment > 1){
             moralAlignment = 1;
@@ -22,21 +25,37 @@ public class Character {
         this.moralAlignment = moralAlignment;
     }
 
+    /**
+     * Heals the character
+     * @param healthPoints the amount to be healed by
+     */
     public void heal(double healthPoints){
-        this.healthPoints += healthPoints;
+        if(healthPoints > 0){
+            this.healthPoints += healthPoints;
+        }
         if(this.healthPoints > 100){
             this.healthPoints = 100;
         }
     }
 
+    /**
+     * Damages the Character
+     * @param healthPoints the amount to be damaged by
+     */
     public void injure(double healthPoints){
-        this.healthPoints += healthPoints;
+        if(healthPoints <= 0){
+            this.healthPoints += healthPoints;
+        }
         if(this.healthPoints < 0){
             this.healthPoints = 0;
         }
     }
 
-    public void shiftAlignment(int value){
+    /**
+     * Shifts the alignment
+     * @param value determines a positive or negative shift
+     */
+    public void shiftAlignment(double value){
         Random random = new Random();
         DecimalFormat form = new DecimalFormat("0.0");
 
@@ -49,6 +68,10 @@ public class Character {
         }
     }
 
+    /**
+     * Creates a string format of the character
+     * @return the character sheet
+     */
     public String toString(){
         StringBuilder characterSheet = new StringBuilder("\n\t\tCharacter Sheet\n");
         characterSheet.append("------------------------------\n");
@@ -61,6 +84,9 @@ public class Character {
         return characterSheet + " ";
     }
 
+    /**
+     * Getters for the Character data
+     */
     public int getHeight(){
         return height;
     }

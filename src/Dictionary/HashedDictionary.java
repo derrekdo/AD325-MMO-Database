@@ -3,6 +3,9 @@ package Dictionary;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ *  {@inheritDoc}
+ */
 public class HashedDictionary<K, V> implements DictionaryInterface<K, V> {
     // The dictionary:
     private int numberOfEntries;
@@ -191,11 +194,18 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V> {
 //        }
 //    } // end linearProbe
 
+    /**
+     * Quadratic probing to resolve collision in hash table
+     * @param index the current index
+     * @param key the inputed value
+     * @return the next available index in the hash table
+     */
     private int quadraticProbe(int index, K key){
         boolean found = false;
         double i = 1;
 
         //Checks if there is an available index
+        //Runtime O(N)
         while(!found && (hashTable[index] != null)){
             //if the index shares the same key, exits function
             if(key.equals(hashTable[index].getKey())){
